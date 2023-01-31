@@ -2,6 +2,7 @@
 
 # Пример
 from setup_db import db
+from marshmallow import fields, Schema
 #
 # class Book(db.Model):
 #     __tablename__ = ‘book’
@@ -33,3 +34,33 @@ class Genre(db.Model):
     __tablename__ = 'genre'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+
+
+class MovieSchema(Schema):
+    id = fields.Int()
+    title = fields.Str()
+    description = fields.Str()
+    trailer = fields.Str()
+    year = fields.Int()
+    rating = fields.Float()
+    genre_id = fields.Int()
+    director_id = fields.Int()
+
+class GenreSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+
+
+class DirectorSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+
+
+movie_schema = MovieSchema()
+movies_schema = MovieSchema(many=True)
+
+genre_schema = GenreSchema()
+genres_schema = GenreSchema(many=True)
+
+director_schema = DirectorSchema()
+directors_schema = DirectorSchema(many=True)

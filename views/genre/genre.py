@@ -1,6 +1,6 @@
 from flask_restx import Resource, Namespace
 from setup_db import db
-from models import Movie
+from models import Genre, genre_schema, genres_schema
 from flask import request
 #
 genres_ns = Namespace('genres')

@@ -3,7 +3,7 @@
 # Пример
 from flask_restx import Resource, Namespace
 from setup_db import db
-from models import Movie
+from models import Movie, movies_schema, movie_schema
 from flask import request
 #
 movies_ns = Namespace('movies')
