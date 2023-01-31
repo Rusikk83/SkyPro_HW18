@@ -9,10 +9,15 @@ genres_ns = Namespace('genres')
 @genres_ns.route('/')
 class GenresView(Resource):
     def get(self):
-        return "", 200
+        genres = db.session.query(Genre).all()
+        return genres_schema.dump(genres), 200
 
 
-@genres_ns.route('<int:id>')
+@genres_ns.route('/<int:id>')
 class GenreView(Resource):
     def get(self, id):
-        return "", 200
+        try:
+            genre = db.session.query(Genre).filter(Genre.id == id).one()
+            return genre_schema.dump(genre), 200
+        except Exception as e:
+            return str(e), 404

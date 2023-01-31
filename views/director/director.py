@@ -9,10 +9,15 @@ director_ns = Namespace('directors')
 @director_ns.route("/")
 class DirectorsView(Resource):
     def get(self):
-        return "", 200
+        directors = db.session.query(Director).all()
+        return directors_schema.dump(directors), 200
 
 
 @director_ns.route('/<int:id>')
 class DirctorView(Resource):
     def get(self, id):
-        return "", 200
+        try:
+            director = db.session.query(Director).filter(Director.id == id).one()
+            return director_schema.dump(director), 200
+        except Exception as e:
+            return str(e), 404

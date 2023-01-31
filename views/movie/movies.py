@@ -4,7 +4,7 @@
 from flask_restx import Resource, Namespace
 from setup_db import db
 from models import Movie, movies_schema, movie_schema
-from flask import request
+from flask import request, Response
 #
 movies_ns = Namespace('movies')
 #
@@ -14,9 +14,9 @@ class MoviesView(Resource):
     def get(self):
         genre_id = request.args.get("genre_id")
         director_id = request.args.get("director_id")
-        if genre_id and director_id:
-            books = db.session.query(Movie).filter(Movie.genre_id == genre_id,
-                                                   Movie.director_id == director_id)
+        year = request.args.get("year")
+        if year:
+            books = db.session.query(Movie).filter(Movie.year == year)
         elif genre_id:
             books = db.session.query(Movie).filter(Movie.genre_id == genre_id)
         elif director_id:
@@ -29,9 +29,13 @@ class MoviesView(Resource):
         req_json = request.json
         new_movie = Movie(**req_json)
         db.session.add(new_movie)
+        print(new_movie.id)
         db.session.commit()
+        print(new_movie.id)
+        resp = Response(status=201)
+        resp.headers['Location'] = f'http://127.0.0.1:5000/movies/{new_movie.id}'
 
-        return "", 201
+        return resp
 
 
 @movies_ns.route("/<int:id>")
@@ -57,6 +61,7 @@ class MovieView(Resource):
 
         db.session.add(movie)
         db.session.commit()
+
 
         return "", 204
 
