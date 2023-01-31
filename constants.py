@@ -3,5 +3,5 @@
 
 # Пример
 
-# CONSTANT_NAME = "value"
-# LOG_DIR = "logs"
+CONSTANT_NAME = "value"
+LOG_DIR = "logs"
