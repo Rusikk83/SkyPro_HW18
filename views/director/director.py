@@ -1,11 +1,13 @@
 from flask_restx import Resource, Namespace
 from setup_db import db
 from models import Director, directors_schema, director_schema
-from flask import request
-#
+
+
+"""Создаем неймспейс для резиссера"""
 director_ns = Namespace('directors')
 
 
+"""представление для получения списка режиссеров"""
 @director_ns.route("/")
 class DirectorsView(Resource):
     def get(self):
@@ -13,6 +15,7 @@ class DirectorsView(Resource):
         return directors_schema.dump(directors), 200
 
 
+"""представление для получения режиссера по id"""
 @director_ns.route('/<int:id>')
 class DirctorView(Resource):
     def get(self, id):
